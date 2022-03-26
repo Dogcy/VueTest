@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script src="https://unpkg.com/vue@3"></script>
+
+  <body>
+    <div id="app">
+
+      <button @click="show = !show">Toggle</button>
+      <Transition name="fade">
+        <p v-if="show">hello</p>
+      </Transition>
+
+        <button @click="num = 1">按我改num</button>
+        <button @click="num2 += 1">test</button>
+        <button @click="num2 += 1;num+=1">test2</button>
+        <button @click="ComputedInt++">ComputedCount</button>
+        <p> 用add方法把以下的值由0變1：</p>
+        <p> {{ add }} </p>
+        <p>num = {{ComputedCount}}</p>
+        <p>num = {{ComputedCount}}</p>
+        <p>num = {{ComputedCount}}</p>
+        <p>num = {{ComputedCount}}</p>
+        <input type="text" v-model="ComputedInt">
+
+
+      <div v-for="(item,index) in Model" :key="item.Id">
+          Id= {{item.Id}} Name ={{item.Name}} Age = {{item.Age}} 
+          index = {{index}}
+          <input type="text" /> >
+          <input type="button" @click="btnclick(item.Id)" value="delete" />
+        </div>
+        <div>
+          <input type="button" @click="addObj" value="add">
+        </div>
+        <!-- <div v-for="(x,index) in 10">S
+            {{x}}+{{index}}         
+        </div> -->
+      </div>
+    </div>
+  </body>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          Model: [
+            { Id: 2, Name: "Cy", Age: 25 },
+            { Id: 4, Name: "CEN", Age: 12 },
+            { Id: 7, Name: "JOHN", Age: 16 },
+          ],
+          i:0,
+          num:0,
+          num2:2,
+          show:false,
+          ComputedInt:0,
+        };
+      },
+      methods: {
+        btnclick(id) {
+          var index = this.Model.findIndex((x) => id === x.Id);
+          this.Model.splice(index, 1);
+          console.log(this.Model);
+        },
+        addObj(){
+          testObj=[{ Id: 10, Name: "dog", Age: 99 },{ Id: 11, Name: "dog", Age: 99 },{ Id: 112, Name: "dog", Age: 99 }];
+           this.Model = this.Model.concat(testObj);
+          // this.Model.push(testObj);
+        },
+        
+      },
+      computed:{
+        add(){
+        console.log('我有被觸發了！')
+        return this.num+this.num2
+      },
+      //測試computed 重新跑了幾次 
+      ComputedCount(){
+        console.log("ComputedCount")
+        return this.ComputedInt+1;
+      }
+    },
+    watch:{
+      num:function(){
+        console.log("有動作");
+      }
+    }
+      
+    }).mount("#app");
+  </script>
+  <style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+  </style>
+</html>
